@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>VRView HLS Example</title>
+    </head>
+
+    <body>
+        <div id="vrview"></div>
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+        <script src="https://storage.googleapis.com/vrview/2.0/build/vrview.min.js" ></script>
+        <script>
+            const hlsUrl = 'https://media7.ambicam.com:443/dvr30/PNJB-000371-PBPTZ/PNJB-000371-PBPTZ.m3u8';
+            // help fix error on following line
+           //(index):15 Uncaught TypeError: VRView is not a constructor at(index): 15: 28
+            
+            
+            
+                   const vrView = new VRView.Player('#vrview', {
+                        width: '100%',
+                        height: 2048,
+                        video: 'https://media7.ambicam.com:443/dvr30/PNJB-000371-PBPTZ/PNJB-000371-PBPTZ.m3u8',
+                        is_stereo: true,
+                        is_autopan_off: true
+                    });
+
+            
+
+            vrView.on('click', function () {
+                vrView.toggleFullscreen();
+            });
+
+            vrView.on('ready', function () {
+                vrView.on('modechange', function (mode) {
+                    if (mode === 'fullscreen') {
+                        vrView.setPitchRange(-90, 90);
+                        vrView.setYawRange(-180, 180);
+                    } else {
+                        vrView.setPitchRange(-45, 45);
+                        vrView.setYawRange(-60, 60);
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>

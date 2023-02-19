@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>VRView HLS Example</title>
+    </head>
+
+    <body>
+        <div style="display: flex; flex-wrap: wrap;">
+            <div id="vrview1" style="width: 50%; height: 1024px;"></div>
+            <div id="vrview2" style="width: 50%; height: 1024px;"></div>
+            <div id="vrview3" style="width: 50%; height: 1024px;"></div>
+            <div id="vrview4" style="width: 50%; height: 1024px;"></div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+        <script src="https://storage.googleapis.com/vrview/2.0/build/vrview.min.js"></script>
+
+        <script>
+            const hlsUrl = 'https://media7.ambicam.com:443/dvr30/PNJB-000371-PBPTZ/PNJB-000371-PBPTZ.m3u8';
+
+            const vrView1 = new VRView.Player('#vrview1', {
+                width: '100%',
+                height: '100%',
+                video: hlsUrl,
+                is_stereo: true,
+                is_autopan_off: true
+            });
+
+            const vrView2 = new VRView.Player('#vrview2', {
+                width: '100%',
+                height: '100%',
+                video: hlsUrl,
+                is_stereo: true,
+                is_autopan_off: true,
+                yaw: 90
+            });
+
+            const vrView3 = new VRView.Player('#vrview3', {
+                width: '100%',
+                height: '100%',
+                video: hlsUrl,
+                is_stereo: true,
+                is_autopan_off: true,
+                yaw: 180
+            });
+
+            const vrView4 = new VRView.Player('#vrview4', {
+                width: '100%',
+                height: '100%',
+                video: hlsUrl,
+                is_stereo: true,
+                is_autopan_off: true,
+                yaw: 270
+            });
+
+            [vrView1, vrView2, vrView3, vrView4].forEach((vrView) => {
+                vrView.on('click', function () {
+                    vrView.toggleFullscreen();
+                });
+
+                vrView.on('ready', function () {
+                    vrView.on('modechange', function (mode) {
+                        if (mode === 'fullscreen') {
+                            vrView.setPitchRange(-45, 45);
+                            vrView.setYawRange(-90, 90);
+                        } else {
+                            vrView.setPitchRange(-45, 45);
+                            vrView.setYawRange(-45, 45);
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+
+</html>
